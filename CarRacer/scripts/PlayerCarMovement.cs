@@ -7,7 +7,7 @@ public partial class PlayerCarMovement : VehicleBody3D
 	// movement: arrow keys (opposite for breaking)
 	// breaks: Space key
 	// reset position: R key
-	
+	private float powerBoost = 10000000.0f, powerNormal = 1400.0f;
 	public float MaxSteer {get; set;} = 0.4f; 
 	public float EnginePower { get; set; } = 1400.0f;
 	public float BrakeForce { get; set; } = 2000.0f;
@@ -24,10 +24,16 @@ public partial class PlayerCarMovement : VehicleBody3D
 	// called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		// boost
+		if(Input.IsActionPressed("ui_boost"))
+			EnginePower = powerBoost;
+		else
+			EnginePower = powerNormal;
+
 		// car movement
 		Steering = Input.GetAxis("ui_right", "ui_left") * MaxSteer;
 		if (Input.IsActionPressed("ui_break"))
-			BrakeCar();
+			AirBrakeCar();
 		else
 			EngineForce = Input.GetAxis("ui_down", "ui_up") * EnginePower;
 
@@ -44,7 +50,7 @@ public partial class PlayerCarMovement : VehicleBody3D
 		AngularVelocity = Vector3.Zero;
 	}
 
-	private void BrakeCar()
+	private void AirBrakeCar()
 	{
 		if(LinearVelocity.Length() > 0.0f)
 		{
@@ -60,5 +66,11 @@ public partial class PlayerCarMovement : VehicleBody3D
 			LinearVelocity = Vector3.Zero;
 			AngularVelocity = Vector3.Zero;
 		}
+	}
+
+	public void _on_area_3d_body_entered(Node3D body)
+	{
+		ResetPosToDefault();
+		GD.Print("aaa");
 	}
 }

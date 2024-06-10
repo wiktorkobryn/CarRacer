@@ -1,0 +1,792 @@
+[gd_scene load_steps=25 format=3 uid="uid://8d7bb78gg7ax"]
+
+[ext_resource type="Script" path="res://scripts/CameraMovement.cs" id="1_snma5"]
+[ext_resource type="PackedScene" uid="uid://cmjqgwpkvei76" path="res://scenes/playerCarCharger1.tscn" id="2_0vn5u"]
+[ext_resource type="PackedScene" uid="uid://b6j3c411e6ly2" path="res://models/plants/bushA.glb" id="3_baqjx"]
+[ext_resource type="PackedScene" uid="uid://b31m26w4khgu2" path="res://models/plants/bushB.glb" id="4_4k3pr"]
+[ext_resource type="PackedScene" uid="uid://htuv6fnttxh3" path="res://models/plants/palmA.glb" id="5_w80bi"]
+[ext_resource type="PackedScene" uid="uid://dl2fm3hio3gtn" path="res://models/plants/palmC.glb" id="6_dislc"]
+[ext_resource type="PackedScene" uid="uid://b4x2c3j5ipnuv" path="res://models/plants/grassA.glb" id="7_1vj6f"]
+[ext_resource type="PackedScene" uid="uid://dadkfvdmu0fjo" path="res://scenes/takeoff.tscn" id="8_8qosv"]
+[ext_resource type="PackedScene" uid="uid://cpfxxpoxkm0ti" path="res://models/ring.glb" id="9_21r8k"]
+[ext_resource type="PackedScene" uid="uid://dmlv1l33lxkxj" path="res://models/spike_plate.glb" id="10_k57b1"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_jmowi"]
+sky_top_color = Color(0.905882, 0.458824, 0.411765, 1)
+sky_horizon_color = Color(0.757843, 0.640196, 0.638235, 1)
+ground_bottom_color = Color(0.12549, 0.101961, 0.141176, 1)
+ground_horizon_color = Color(0.757843, 0.640196, 0.638235, 1)
+
+[sub_resource type="Sky" id="Sky_psoe5"]
+sky_material = SubResource("ProceduralSkyMaterial_jmowi")
+
+[sub_resource type="Environment" id="Environment_q5mel"]
+background_mode = 2
+sky = SubResource("Sky_psoe5")
+tonemap_mode = 2
+tonemap_exposure = 0.78
+tonemap_white = 0.66
+fog_light_energy = 1.69
+fog_sky_affect = 0.61
+fog_height = 29.47
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_rncmu"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uojsg"]
+albedo_color = Color(0.494118, 0.34902, 0.882353, 1)
+roughness = 0.0
+emission = Color(0.223529, 0.203922, 0.564706, 1)
+emission_energy_multiplier = 0.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_2ua0d"]
+material = SubResource("StandardMaterial3D_uojsg")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qytdb"]
+albedo_color = Color(0.333333, 0.262745, 0.360784, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ujvx2"]
+material = SubResource("StandardMaterial3D_qytdb")
+size = Vector3(120, 0.3, 70)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_ol48n"]
+points = PackedVector3Array(-60, -0.15, -35, -60, 0.15, -35, 60, -0.15, -35, -60, -0.15, 35, -60, 0.15, 35, 60, 0.15, -35, 60, -0.15, 35, 60, 0.15, 35)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7ehbu"]
+size = Vector3(0.676514, 0.444458, 0.661072)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_7iygf"]
+points = PackedVector3Array(-60, -0.15, -35, -60, 0.15, -35, 60, -0.15, -35, -60, -0.15, 35, -60, 0.15, 35, 60, 0.15, -35, 60, -0.15, 35, 60, 0.15, 35)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_kimvc"]
+points = PackedVector3Array(-60, -0.15, -35, -60, 0.15, -35, 60, -0.15, -35, -60, -0.15, 35, -60, 0.15, 35, 60, 0.15, -35, 60, -0.15, 35, 60, 0.15, 35)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_qmuqo"]
+points = PackedVector3Array(-60, -0.15, -35, -60, 0.15, -35, 60, -0.15, -35, -60, -0.15, 35, -60, 0.15, 35, 60, 0.15, -35, 60, -0.15, 35, 60, 0.15, 35)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_glcpr"]
+points = PackedVector3Array(-60, -0.15, -35, -60, 0.15, -35, 60, -0.15, -35, -60, -0.15, 35, -60, 0.15, 35, 60, 0.15, -35, 60, -0.15, 35, 60, 0.15, 35)
+
+[node name="test_game" type="Node3D"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.38107, 0.924546, 0, -0.924546, 0.38107, 0, 0, 0)
+light_energy = 1.283
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_q5mel")
+
+[node name="PlayerCamera" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.727773, 0.685818, 0, -0.685818, 0.727773, 0, 17.803, 37.215)
+current = true
+size = 28.858
+near = 6.455
+far = 100.0
+script = ExtResource("1_snma5")
+
+[node name="PlayerCar" parent="." instance=ExtResource("2_0vn5u")]
+transform = Transform3D(0.679493, 0, -0.733682, 0, 1, 0, 0.733682, 0, 0.679493, 0, 3.17287, 18.8188)
+
+[node name="ball" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.32773, 3.39504, 30.6557)
+mass = 50.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ball"]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0)
+shape = SubResource("SphereShape3D_rncmu")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ball/CollisionShape3D"]
+mesh = SubResource("SphereMesh_2ua0d")
+
+[node name="plants" type="Node3D" parent="."]
+
+[node name="bushA" parent="plants" instance=ExtResource("3_baqjx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.44352, 0.149998, 12.8537)
+
+[node name="bushA4" parent="plants" instance=ExtResource("3_baqjx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.44352, 0.149998, 44.6809)
+
+[node name="bushB" parent="plants" instance=ExtResource("4_4k3pr")]
+transform = Transform3D(0.999994, 0.00224201, -0.00258185, -0.00224226, 0.999997, -9.50095e-05, 0.00258163, 0.000100788, 0.999997, 25.7094, -0.384417, 19.1787)
+
+[node name="palmA" parent="plants" instance=ExtResource("5_w80bi")]
+transform = Transform3D(1.5, 0, 0, 0, 1.45585, -0.361231, 0, 0.361231, 1.45585, -11.095, 0.149998, -20.8425)
+
+[node name="palmA4" parent="plants" instance=ExtResource("5_w80bi")]
+transform = Transform3D(-0.0859878, -0.180363, 1.48663, -0.0123405, 1.48911, 0.179951, -1.49748, -0.00191476, -0.0868474, 151.803, -0.395561, 58.5359)
+
+[node name="palmC" parent="plants" instance=ExtResource("6_dislc")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -45.2768, 0.150002, 22.563)
+
+[node name="palmC3" parent="plants" instance=ExtResource("6_dislc")]
+transform = Transform3D(1.99627, 0.122167, 0, -0.122167, 1.99627, 0, 0, 0, 2, -99.1497, 0.150002, 46.8799)
+
+[node name="palmC4" parent="plants" instance=ExtResource("6_dislc")]
+transform = Transform3D(-0.173174, 0.0284282, -1.99229, -0.118816, 1.99609, 0.0388103, 1.98894, 0.121719, -0.171147, -56.785, -11.5066, 78.9733)
+
+[node name="palmC2" parent="plants" instance=ExtResource("6_dislc")]
+transform = Transform3D(1.56118, -0.00215138, 1.25008, 0.00278401, 2, -3.48875e-05, -1.25008, 0.00176734, 1.56118, 43.1316, 0.149994, 43.9108)
+
+[node name="palmA2" parent="plants" instance=ExtResource("5_w80bi")]
+transform = Transform3D(-0.770858, -0.167298, 0.614646, -0.1101, 0.985366, 0.13012, -0.62742, 0.0326315, -0.777997, 31.8359, 0.15, -6.82051)
+
+[node name="palmA5" parent="plants" instance=ExtResource("5_w80bi")]
+transform = Transform3D(0.543334, 0.169293, -0.82227, -0.1101, 0.985366, 0.13012, 0.832265, 0.0198334, 0.554022, -58.7556, -1.93058, -4.10271)
+
+[node name="palmA3" parent="plants" instance=ExtResource("5_w80bi")]
+transform = Transform3D(0.210997, 0.08404, -0.662131, -0.111628, 0.689091, 0.0518903, 0.658042, 0.0899476, 0.221111, -23.8374, 0.334105, 45.7134)
+
+[node name="bushA2" parent="plants" instance=ExtResource("3_baqjx")]
+transform = Transform3D(0.647522, 0, -0.762047, 0, 1, 0, 0.762047, 0, 0.647522, 9.1391, -0.0537367, 28.4726)
+
+[node name="bushA5" parent="plants" instance=ExtResource("3_baqjx")]
+transform = Transform3D(0.644713, -0.0602508, -0.762047, 0.0930483, 0.995662, -3.72529e-09, 0.758741, -0.0709072, 0.647522, 87.5285, 0.682001, 22.7665)
+
+[node name="bushA6" parent="plants" instance=ExtResource("3_baqjx")]
+transform = Transform3D(0.644713, -0.0602508, -0.762047, 0.0930483, 0.995662, -3.72529e-09, 0.758741, -0.0709072, 0.647522, 99.0805, 2.3745, 45.579)
+
+[node name="bushA7" parent="plants" instance=ExtResource("3_baqjx")]
+transform = Transform3D(-0.0216542, -0.0843512, -1.39729, 0.098135, 1.39393, -0.085669, 1.39639, -0.0992701, -0.0156474, 98.8165, 3.16039, 55.1268)
+
+[node name="bushA8" parent="plants" instance=ExtResource("3_baqjx")]
+transform = Transform3D(-0.539125, -0.0602508, -0.840068, 0.0273243, 0.995662, -0.0889459, 0.841783, -0.0709072, -0.53514, 68.7605, -4.79263, 73.1601)
+
+[node name="bushA9" parent="plants" instance=ExtResource("3_baqjx")]
+transform = Transform3D(-1.34204, -0.0843512, -0.389624, -0.0530739, 1.39393, -0.118966, 0.395101, -0.09927, -1.33942, 68.6024, -5.75714, 82.8325)
+
+[node name="bushA3" parent="plants" instance=ExtResource("3_baqjx")]
+transform = Transform3D(0.801734, 0, 0.597681, 0, 1, 0, -0.597681, 0, 0.801734, 14.8372, -0.313604, 36.7159)
+
+[node name="grass" type="Node3D" parent="plants"]
+transform = Transform3D(0.931641, 0, 0.363381, 0, 1, 0, -0.363381, 0, 0.931641, -6.26744, 0, 11.5568)
+visible = false
+
+[node name="grassA" parent="plants/grass" instance=ExtResource("7_1vj6f")]
+transform = Transform3D(0.7149, 0, -0.699227, 0, 1, 0, 0.699227, 0, 0.7149, -4.17608, 0.0803313, 29.7101)
+
+[node name="grassA2" parent="plants/grass" instance=ExtResource("7_1vj6f")]
+transform = Transform3D(0.930979, 0, -0.365072, 0, 1, 0, 0.365072, 0, 0.930979, -2.62281, 0.160663, 25.7769)
+
+[node name="grassA3" parent="plants/grass" instance=ExtResource("7_1vj6f")]
+transform = Transform3D(-0.688443, 0, -0.72529, 0, 1, 0, 0.72529, 0, -0.688443, -5.37745, 0.0803313, 26.9964)
+
+[node name="grassA17" parent="plants/grass" instance=ExtResource("7_1vj6f")]
+transform = Transform3D(0.642748, 0, 0.766078, 0, 1, 0, -0.766078, 0, 0.642748, -4.88621, 0.0803313, 26.6189)
+
+[node name="grassA18" parent="plants/grass" instance=ExtResource("7_1vj6f")]
+transform = Transform3D(0.293106, 0, 0.95608, 0, 1, 0, -0.95608, 0, 0.293106, -8.92628, 0.160663, 25.3697)
+
+[node name="grassA19" parent="plants/grass" instance=ExtResource("7_1vj6f")]
+transform = Transform3D(0.775617, 0, -0.631204, 0, 1, 0, 0.631204, 0, 0.775617, -7.50053, 0.0803313, 28.0235)
+
+[node name="grassA4" parent="plants/grass" instance=ExtResource("7_1vj6f")]
+transform = Transform3D(0.403721, 0, -0.914882, 0, 1, 0, 0.914882, 0, 0.403721, -2.84944, 0.160663, 24.1)
+
+[node name="grassA5" parent="plants/grass" instance=ExtResource("7_1vj6f")]
+transform = Transform3D(-0.985247, 0, -0.171138, 0, 1, 0, 0.171138, 0, -0.985247, -5.92723, 0.0803313, 23.1691)
+
+[node name="grassA6" parent="plants/grass" instance=ExtResource("7_1vj6f")]
+transform = Transform3D(-0.8405, 0, -0.541811, 0, 1, 0, 0.541811, 0, -0.8405, -3.64458, 0.160663, 26.7289)
+
+[node name="grassA7" parent="plants/grass" instance=ExtResource("7_1vj6f")]
+transform = Transform3D(-0.185872, 0, 0.982574, 0, 1, 0, -0.982574, 0, -0.185872, -3.0233, 0.0803313, 23.7811)
+
+[node name="grassA8" parent="plants/grass" instance=ExtResource("7_1vj6f")]
+transform = Transform3D(-0.554336, 0, 0.832293, 0, 1, 0, -0.832293, 0, -0.554336, -6.54852, 0.160663, 26.1168)
+
+[node name="grassA9" parent="plants/grass" instance=ExtResource("7_1vj6f")]
+transform = Transform3D(-0.192385, 0, 0.98132, 0, 1, 0, -0.98132, 0, -0.192385, -3.03108, 0.0803313, 7.4978)
+
+[node name="grassA10" parent="plants/grass" instance=ExtResource("7_1vj6f")]
+transform = Transform3D(-0.559844, 0, 0.828598, 0, 1, 0, -0.828598, 0, -0.559844, -6.54073, 0.160663, 9.85683)
+
+[node name="grassA11" parent="plants/grass" instance=ExtResource("7_1vj6f")]
+transform = Transform3D(0.978329, 0, 0.207058, 0, 1, 0, -0.207058, 0, 0.978329, -3.58025, 0.0803313, 10.4143)
+
+[node name="grassA12" parent="plants/grass" instance=ExtResource("7_1vj6f")]
+transform = Transform3D(0.820122, 0, 0.572189, 0, 1, 0, -0.572189, 0, 0.820122, -5.99157, 0.160663, 6.94035)
+
+[node name="grassA13" parent="plants/grass" instance=ExtResource("7_1vj6f")]
+transform = Transform3D(0.166665, 0, -0.986014, 0, 1, 0, 0.986014, 0, 0.166665, -4.87396, 0.0803313, 11.0761)
+
+[node name="grassA14" parent="plants/grass" instance=ExtResource("7_1vj6f")]
+transform = Transform3D(0.537991, 0, -0.84295, 0, 1, 0, 0.84295, 0, 0.537991, -1.30384, 0.160663, 8.80965)
+
+[node name="grassA15" parent="plants/grass" instance=ExtResource("7_1vj6f")]
+transform = Transform3D(-0.983407, 0, -0.181412, 0, 1, 0, 0.181412, 0, -0.983407, -4.24874, 0.0803313, 8.175)
+
+[node name="grassA16" parent="plants/grass" instance=ExtResource("7_1vj6f")]
+transform = Transform3D(-0.8348, 0, -0.550554, 0, 1, 0, 0.550554, 0, -0.8348, -1.92905, 0.160663, 11.7108)
+
+[node name="area" type="Node3D" parent="."]
+
+[node name="ground" type="MeshInstance3D" parent="area"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.112358, 0, 11.4055)
+mesh = SubResource("BoxMesh_ujvx2")
+skeleton = NodePath("../..")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="area/ground"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="area/ground/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_ol48n")
+
+[node name="ground2" type="MeshInstance3D" parent="area"]
+transform = Transform3D(0.359719, -1.78274, -0.164407, 0.0509606, 12.7373, -0.022505, 0.270477, -0.0288985, 0.222892, 91.4714, 0, 31.2623)
+mesh = SubResource("BoxMesh_ujvx2")
+skeleton = NodePath("../..")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="area/ground2"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="area/ground2/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_ol48n")
+
+[node name="ground6" type="MeshInstance3D" parent="area"]
+transform = Transform3D(0.218247, 1.59337, -0.241048, -0.124709, 12.3628, -0.00435226, 0.376787, 3.1689, 0.138182, -73.865, -7.59626, 71.1639)
+mesh = SubResource("BoxMesh_ujvx2")
+skeleton = NodePath("../..")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="area/ground6"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="area/ground6/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_ol48n")
+
+[node name="ground7" type="MeshInstance3D" parent="area"]
+transform = Transform3D(-0.269342, 0.324381, -0.183359, -0.0628364, 11.8644, 0.0659156, 0.228368, 3.64712, -0.198121, -78.994, 2.67941, 39.6905)
+mesh = SubResource("BoxMesh_ujvx2")
+skeleton = NodePath("../..")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="area/ground7"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="area/ground7/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_ol48n")
+
+[node name="ground3" type="MeshInstance3D" parent="area"]
+transform = Transform3D(-1.91028, -1.38159, 0.0468747, -0.114998, 25.8732, -0.0138026, 0.264734, 1.26978, 0.332245, 44.9057, -10.2528, 76.617)
+mesh = SubResource("BoxMesh_ujvx2")
+skeleton = NodePath("../..")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="area/ground3"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="area/ground3/StaticBody3D"]
+transform = Transform3D(1, 1.43051e-06, 2.98023e-08, 9.31323e-10, 1, 0, 5.96046e-08, 0, 1, 0, 0, 0)
+shape = SubResource("ConvexPolygonShape3D_ol48n")
+
+[node name="ground4" type="MeshInstance3D" parent="area"]
+transform = Transform3D(0.334147, 1.59226, -0.0371249, -0.0810113, 6.37844, 0.0245541, -0.0475628, 0.322182, -0.302639, 44.9057, -4.74419, 76.617)
+mesh = SubResource("BoxMesh_ujvx2")
+skeleton = NodePath("../..")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="area/ground4"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="area/ground4/StaticBody3D"]
+transform = Transform3D(1, 1.43051e-06, 2.98023e-08, 9.31323e-10, 1, 0, 5.96046e-08, 0, 1, 0, 0, 0)
+shape = SubResource("ConvexPolygonShape3D_ol48n")
+
+[node name="ground5" type="MeshInstance3D" parent="area"]
+transform = Transform3D(-0.0099694, -6.5965, -0.0462837, 0.114757, -0.5934, 0.00333245, 0.00254782, 0.915853, -0.331202, 7.08407, 6.31407, 81.873)
+mesh = SubResource("BoxMesh_ujvx2")
+skeleton = NodePath("../..")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="area/ground5"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="area/ground5/StaticBody3D"]
+transform = Transform3D(1, 1.43051e-06, 2.98023e-08, 9.31323e-10, 1, 0, 5.96046e-08, 0, 1, 0, 0, 0)
+shape = SubResource("ConvexPolygonShape3D_ol48n")
+
+[node name="SpikePlate8" type="Node3D" parent="area/ground5"]
+transform = Transform3D(-8.67919, -0.0183585, 0.0312765, 0.000315867, -0.149562, -0.000136384, -0.0107808, 0.00270378, -2.99007, 37.6339, -0.135951, 26.1376)
+
+[node name="spike_plate2" parent="area/ground5/SpikePlate8" instance=ExtResource("10_k57b1")]
+
+[node name="Area3D" type="Area3D" parent="area/ground5/SpikePlate8"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="area/ground5/SpikePlate8/Area3D"]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0.0317383, 1.11108, 0.00939941)
+shape = SubResource("BoxShape3D_7ehbu")
+
+[node name="SpikePlate9" type="Node3D" parent="area/ground5"]
+transform = Transform3D(-8.67919, -0.0183585, 0.0312765, 0.000315867, -0.149562, -0.000136384, -0.0107808, 0.00270378, -2.99007, 0.676623, -0.134606, 26.0917)
+
+[node name="spike_plate2" parent="area/ground5/SpikePlate9" instance=ExtResource("10_k57b1")]
+
+[node name="Area3D" type="Area3D" parent="area/ground5/SpikePlate9"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="area/ground5/SpikePlate9/Area3D"]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0.0317383, 1.11108, 0.00939941)
+shape = SubResource("BoxShape3D_7ehbu")
+
+[node name="SpikePlate10" type="Node3D" parent="area/ground5"]
+transform = Transform3D(-8.67919, -0.0183585, 0.0312765, 0.000315867, -0.149562, -0.000136384, -0.0107808, 0.00270378, -2.99007, -36.8086, -0.133242, 26.0451)
+
+[node name="spike_plate2" parent="area/ground5/SpikePlate10" instance=ExtResource("10_k57b1")]
+
+[node name="Area3D" type="Area3D" parent="area/ground5/SpikePlate10"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="area/ground5/SpikePlate10/Area3D"]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0.0317383, 1.11108, 0.00939941)
+shape = SubResource("BoxShape3D_7ehbu")
+
+[node name="SpikePlate11" type="Node3D" parent="area/ground5"]
+transform = Transform3D(-8.67919, -0.0183585, 0.0312765, 0.000315867, -0.149562, -0.000136384, -0.0107808, 0.00270378, -2.99007, 37.7685, -0.136538, 13.2698)
+
+[node name="spike_plate2" parent="area/ground5/SpikePlate11" instance=ExtResource("10_k57b1")]
+
+[node name="Area3D" type="Area3D" parent="area/ground5/SpikePlate11"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="area/ground5/SpikePlate11/Area3D"]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0.0317383, 1.11108, 0.00939941)
+shape = SubResource("BoxShape3D_7ehbu")
+
+[node name="SpikePlate12" type="Node3D" parent="area/ground5"]
+transform = Transform3D(-8.67919, -0.0183585, 0.0312765, 0.000315867, -0.149562, -0.000136384, -0.0107808, 0.00270378, -2.99007, 0.811221, -0.135193, 13.2239)
+
+[node name="spike_plate2" parent="area/ground5/SpikePlate12" instance=ExtResource("10_k57b1")]
+
+[node name="Area3D" type="Area3D" parent="area/ground5/SpikePlate12"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="area/ground5/SpikePlate12/Area3D"]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0.0317383, 1.11108, 0.00939941)
+shape = SubResource("BoxShape3D_7ehbu")
+
+[node name="SpikePlate13" type="Node3D" parent="area/ground5"]
+transform = Transform3D(-8.67919, -0.0183585, 0.0312765, 0.000315867, -0.149562, -0.000136384, -0.0107808, 0.00270378, -2.99007, -36.674, -0.133829, 13.1773)
+
+[node name="spike_plate2" parent="area/ground5/SpikePlate13" instance=ExtResource("10_k57b1")]
+
+[node name="Area3D" type="Area3D" parent="area/ground5/SpikePlate13"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="area/ground5/SpikePlate13/Area3D"]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0.0317383, 1.11108, 0.00939941)
+shape = SubResource("BoxShape3D_7ehbu")
+
+[node name="SpikePlate14" type="Node3D" parent="area/ground5"]
+transform = Transform3D(-8.67919, -0.0183585, 0.0312765, 0.000315867, -0.149562, -0.000136384, -0.0107808, 0.00270378, -2.99007, 37.9057, -0.137136, 0.154574)
+
+[node name="spike_plate2" parent="area/ground5/SpikePlate14" instance=ExtResource("10_k57b1")]
+
+[node name="Area3D" type="Area3D" parent="area/ground5/SpikePlate14"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="area/ground5/SpikePlate14/Area3D"]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0.0317383, 1.11108, 0.00939941)
+shape = SubResource("BoxShape3D_7ehbu")
+
+[node name="SpikePlate15" type="Node3D" parent="area/ground5"]
+transform = Transform3D(-8.67919, -0.0183585, 0.0312765, 0.000315867, -0.149562, -0.000136384, -0.0107808, 0.00270378, -2.99007, 0.948408, -0.135791, 0.108669)
+
+[node name="spike_plate2" parent="area/ground5/SpikePlate15" instance=ExtResource("10_k57b1")]
+
+[node name="Area3D" type="Area3D" parent="area/ground5/SpikePlate15"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="area/ground5/SpikePlate15/Area3D"]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0.0317383, 1.11108, 0.00939941)
+shape = SubResource("BoxShape3D_7ehbu")
+
+[node name="SpikePlate16" type="Node3D" parent="area/ground5"]
+transform = Transform3D(-8.67919, -0.0183585, 0.0312765, 0.000315867, -0.149562, -0.000136384, -0.0107808, 0.00270378, -2.99007, -36.5368, -0.134427, 0.0621065)
+
+[node name="spike_plate2" parent="area/ground5/SpikePlate16" instance=ExtResource("10_k57b1")]
+
+[node name="Area3D" type="Area3D" parent="area/ground5/SpikePlate16"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="area/ground5/SpikePlate16/Area3D"]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0.0317383, 1.11108, 0.00939941)
+shape = SubResource("BoxShape3D_7ehbu")
+
+[node name="SpikePlate17" type="Node3D" parent="area/ground5"]
+transform = Transform3D(-8.67919, -0.0183585, 0.0312765, 0.000315867, -0.149562, -0.000136384, -0.0107808, 0.00270378, -2.99007, 38.0429, -0.137735, -12.9607)
+
+[node name="spike_plate2" parent="area/ground5/SpikePlate17" instance=ExtResource("10_k57b1")]
+
+[node name="Area3D" type="Area3D" parent="area/ground5/SpikePlate17"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="area/ground5/SpikePlate17/Area3D"]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0.0317383, 1.11108, 0.00939941)
+shape = SubResource("BoxShape3D_7ehbu")
+
+[node name="SpikePlate18" type="Node3D" parent="area/ground5"]
+transform = Transform3D(-8.67919, -0.0183585, 0.0312765, 0.000315867, -0.149562, -0.000136384, -0.0107808, 0.00270378, -2.99007, 1.08559, -0.13639, -13.0066)
+
+[node name="spike_plate2" parent="area/ground5/SpikePlate18" instance=ExtResource("10_k57b1")]
+
+[node name="Area3D" type="Area3D" parent="area/ground5/SpikePlate18"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="area/ground5/SpikePlate18/Area3D"]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0.0317383, 1.11108, 0.00939941)
+shape = SubResource("BoxShape3D_7ehbu")
+
+[node name="SpikePlate19" type="Node3D" parent="area/ground5"]
+transform = Transform3D(-8.67919, -0.0183586, 0.0312765, 0.000315868, -0.149562, -0.000136384, -0.0107808, 0.00270378, -2.99007, -36.3996, -0.135025, -13.0531)
+
+[node name="spike_plate2" parent="area/ground5/SpikePlate19" instance=ExtResource("10_k57b1")]
+
+[node name="Area3D" type="Area3D" parent="area/ground5/SpikePlate19"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="area/ground5/SpikePlate19/Area3D"]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0.0317383, 1.11108, 0.00939941)
+shape = SubResource("BoxShape3D_7ehbu")
+
+[node name="SpikePlate20" type="Node3D" parent="area/ground5"]
+transform = Transform3D(-8.67919, -0.0183586, 0.0312765, 0.000315868, -0.149562, -0.000136384, -0.0107808, 0.00270378, -2.99007, 38.1775, -0.138322, -25.8285)
+
+[node name="spike_plate2" parent="area/ground5/SpikePlate20" instance=ExtResource("10_k57b1")]
+
+[node name="Area3D" type="Area3D" parent="area/ground5/SpikePlate20"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="area/ground5/SpikePlate20/Area3D"]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0.0317383, 1.11108, 0.00939941)
+shape = SubResource("BoxShape3D_7ehbu")
+
+[node name="SpikePlate21" type="Node3D" parent="area/ground5"]
+transform = Transform3D(-8.67919, -0.0183586, 0.0312765, 0.000315868, -0.149562, -0.000136384, -0.0107808, 0.00270378, -2.99007, 1.22019, -0.136977, -25.8744)
+
+[node name="spike_plate2" parent="area/ground5/SpikePlate21" instance=ExtResource("10_k57b1")]
+
+[node name="Area3D" type="Area3D" parent="area/ground5/SpikePlate21"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="area/ground5/SpikePlate21/Area3D"]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0.0317383, 1.11108, 0.00939941)
+shape = SubResource("BoxShape3D_7ehbu")
+
+[node name="SpikePlate22" type="Node3D" parent="area/ground5"]
+transform = Transform3D(-8.67919, -0.0183586, 0.0312765, 0.000315868, -0.149562, -0.000136384, -0.0107808, 0.00270378, -2.99007, -36.265, -0.135612, -25.9209)
+
+[node name="spike_plate2" parent="area/ground5/SpikePlate22" instance=ExtResource("10_k57b1")]
+
+[node name="Area3D" type="Area3D" parent="area/ground5/SpikePlate22"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="area/ground5/SpikePlate22/Area3D"]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0.0317383, 1.11108, 0.00939941)
+shape = SubResource("BoxShape3D_7ehbu")
+
+[node name="border1" type="MeshInstance3D" parent="area"]
+transform = Transform3D(0.02, 0, 0, 0, 10, 0, 0, 0, 1, -61.0987, 1.69883, 11.4055)
+mesh = SubResource("BoxMesh_ujvx2")
+skeleton = NodePath("../..")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="area/border1"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="area/border1/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_7iygf")
+
+[node name="border2" type="MeshInstance3D" parent="area"]
+transform = Transform3D(0.02, 0, 0, 0, 10, 0, 0, 0, 0.234057, 61.2757, 1.69883, -15.3044)
+mesh = SubResource("BoxMesh_ujvx2")
+skeleton = NodePath("../..")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="area/border2"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="area/border2/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_kimvc")
+
+[node name="border5" type="MeshInstance3D" parent="area"]
+transform = Transform3D(0.02, 0, 0, 0, 10, 0, 0, 0, 0.234057, 61.2757, 1.69883, 37.8984)
+mesh = SubResource("BoxMesh_ujvx2")
+skeleton = NodePath("../..")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="area/border5"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="area/border5/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_kimvc")
+
+[node name="border3" type="MeshInstance3D" parent="area"]
+transform = Transform3D(1.04, 0, 0, 0, 10, 0, 0, 0, 0.04, 0.485355, 1.69883, -24.7648)
+mesh = SubResource("BoxMesh_ujvx2")
+skeleton = NodePath("../..")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="area/border3"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="area/border3/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_qmuqo")
+
+[node name="border4" type="MeshInstance3D" parent="area"]
+transform = Transform3D(1.04, 0, 0, 0, 10, 0, 0, 0, 0.04, 0.142773, 1.69883, 47.6127)
+mesh = SubResource("BoxMesh_ujvx2")
+skeleton = NodePath("../..")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="area/border4"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="area/border4/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_glcpr")
+
+[node name="takeoff_area" type="Node3D" parent="area"]
+transform = Transform3D(0.659359, 0, -0.751828, 0, 1, 0, 0.751828, 0, 0.659359, 8.85677, 0.01, 15.5794)
+
+[node name="takeoff" parent="area/takeoff_area" instance=ExtResource("8_8qosv")]
+transform = Transform3D(2.38419e-07, 0, -1, 0, 1, 0, 1, 0, 2.38419e-07, -9.46532, 0.288507, -9.43134)
+
+[node name="takeoff2" parent="area/takeoff_area" instance=ExtResource("8_8qosv")]
+transform = Transform3D(-1.19209e-07, 0, 1, 0, 1, 0, -1, 0, -1.19209e-07, 13.6611, 0.288507, -9.54538)
+
+[node name="takeoff" parent="area" instance=ExtResource("8_8qosv")]
+transform = Transform3D(1.42315, 0, 0.22325, 0, 0.79, 0, -0.325945, 0, 0.974761, -21.099, 0.220674, 31.675)
+
+[node name="ring" parent="area" instance=ExtResource("9_21r8k")]
+transform = Transform3D(1.30012, 0, 1.09531, 0, 1.7, 0, -1.09531, 0, 1.30012, 17.5281, 7.57178, 10.5797)
+
+[node name="takeoff2" parent="area" instance=ExtResource("8_8qosv")]
+transform = Transform3D(0.395161, 0, -0.918612, 0, 1, 0, 0.918612, 0, 0.395161, -17.3348, 0.288507, -6.80819)
+
+[node name="takeoff7" parent="area" instance=ExtResource("8_8qosv")]
+transform = Transform3D(0.640232, 0.0382069, -0.767231, -0.265501, 0.948218, -0.174333, 0.720841, 0.315315, 0.617224, -66.0645, 7.37316, 29.6527)
+
+[node name="takeoff3" parent="area" instance=ExtResource("8_8qosv")]
+transform = Transform3D(-0.0419973, 0, 0.999118, 0, 1, 0, -0.999118, 0, -0.0419973, 13.3983, 0.577014, 35.6957)
+
+[node name="takeoff4" parent="area" instance=ExtResource("8_8qosv")]
+transform = Transform3D(-0.415757, 0, -0.909476, 0, 1, 0, 0.909476, 0, -0.415757, 54.114, 0.27221, 10.4529)
+
+[node name="takeoff5" parent="area" instance=ExtResource("8_8qosv")]
+transform = Transform3D(-0.610864, -0.167853, -0.773738, -0.0846939, 0.985515, -0.14693, 0.787192, -0.0242231, -0.616232, 108.096, 4.583, 43.5148)
+
+[node name="spikes" type="Node3D" parent="."]
+
+[node name="SpikePlate" type="Node3D" parent="spikes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -65.0389, 0, 9.71766)
+visible = false
+
+[node name="spike_plate2" parent="spikes/SpikePlate" instance=ExtResource("10_k57b1")]
+
+[node name="Area3D" type="Area3D" parent="spikes/SpikePlate"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="spikes/SpikePlate/Area3D"]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0.0317383, 1.11108, 0.00939941)
+shape = SubResource("BoxShape3D_7ehbu")
+
+[node name="SpikePlate2" type="Node3D" parent="spikes"]
+transform = Transform3D(0.734323, 0, 0.678801, 0, 1, 0, -0.678801, 0, 0.734323, 12.9444, 0, 9.3306)
+
+[node name="spike_plate2" parent="spikes/SpikePlate2" instance=ExtResource("10_k57b1")]
+
+[node name="Area3D" type="Area3D" parent="spikes/SpikePlate2"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="spikes/SpikePlate2/Area3D"]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0.0317383, 1.11108, 0.00939941)
+shape = SubResource("BoxShape3D_7ehbu")
+
+[node name="SpikePlate8" type="Node3D" parent="spikes"]
+transform = Transform3D(0.968591, -0.0491684, 0.24375, 0.0506975, 0.998714, 2.34774e-10, -0.243437, 0.0123575, 0.969838, -36.4821, -10.9844, 81.2554)
+
+[node name="spike_plate2" parent="spikes/SpikePlate8" instance=ExtResource("10_k57b1")]
+transform = Transform3D(0.995596, 0.000223558, -0.0937444, 0.000223535, 0.999989, 0.00475873, 0.0937443, -0.00475873, 0.995585, 0.00773239, -0.00039196, -0.204674)
+
+[node name="Area3D" type="Area3D" parent="spikes/SpikePlate8"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="spikes/SpikePlate8/Area3D"]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0.0317383, 1.11108, 0.00939941)
+shape = SubResource("BoxShape3D_7ehbu")
+
+[node name="SpikePlate9" type="Node3D" parent="spikes"]
+transform = Transform3D(0.987165, -0.0501113, 0.15164, 0.0506975, 0.998714, 3.39833e-10, -0.151445, 0.00768779, 0.988436, -32.222, -10.7183, 80.3543)
+
+[node name="spike_plate2" parent="spikes/SpikePlate9" instance=ExtResource("10_k57b1")]
+
+[node name="Area3D" type="Area3D" parent="spikes/SpikePlate9"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="spikes/SpikePlate9/Area3D"]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0.0317383, 1.11108, 0.00939941)
+shape = SubResource("BoxShape3D_7ehbu")
+
+[node name="SpikePlate10" type="Node3D" parent="spikes"]
+transform = Transform3D(0.968591, -0.0491684, 0.24375, 0.0506975, 0.998714, 2.34774e-10, -0.243437, 0.0123575, 0.969838, -35.8108, -10.9844, 87.105)
+
+[node name="spike_plate2" parent="spikes/SpikePlate10" instance=ExtResource("10_k57b1")]
+transform = Transform3D(0.995596, 0.000223558, -0.0937444, 0.000223535, 0.999989, 0.00475873, 0.0937443, -0.00475873, 0.995585, 0.00773239, -0.00039196, -0.204674)
+
+[node name="Area3D" type="Area3D" parent="spikes/SpikePlate10"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="spikes/SpikePlate10/Area3D"]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0.0317383, 1.11108, 0.00939941)
+shape = SubResource("BoxShape3D_7ehbu")
+
+[node name="SpikePlate11" type="Node3D" parent="spikes"]
+transform = Transform3D(0.987165, -0.0501113, 0.15164, 0.0506975, 0.998714, 3.39833e-10, -0.151445, 0.00768779, 0.988436, -31.5508, -10.7183, 86.204)
+
+[node name="spike_plate2" parent="spikes/SpikePlate11" instance=ExtResource("10_k57b1")]
+
+[node name="Area3D" type="Area3D" parent="spikes/SpikePlate11"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="spikes/SpikePlate11/Area3D"]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0.0317383, 1.11108, 0.00939941)
+shape = SubResource("BoxShape3D_7ehbu")
+
+[node name="SpikePlate12" type="Node3D" parent="spikes"]
+transform = Transform3D(0.968591, -0.0491684, 0.24375, 0.0506975, 0.998714, 2.34774e-10, -0.243437, 0.0123575, 0.969838, -17.3305, -10.5963, 93.2417)
+
+[node name="spike_plate2" parent="spikes/SpikePlate12" instance=ExtResource("10_k57b1")]
+transform = Transform3D(0.995596, 0.000223558, -0.0937444, 0.000223535, 0.999989, 0.00475873, 0.0937443, -0.00475873, 0.995585, 0.00773239, -0.00039196, -0.204674)
+
+[node name="Area3D" type="Area3D" parent="spikes/SpikePlate12"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="spikes/SpikePlate12/Area3D"]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0.0317383, 1.11108, 0.00939941)
+shape = SubResource("BoxShape3D_7ehbu")
+
+[node name="SpikePlate13" type="Node3D" parent="spikes"]
+transform = Transform3D(0.987165, -0.0501113, 0.15164, 0.0506975, 0.998714, 3.39833e-10, -0.151445, 0.00768779, 0.988436, -13.0705, -10.3302, 92.3406)
+
+[node name="spike_plate2" parent="spikes/SpikePlate13" instance=ExtResource("10_k57b1")]
+
+[node name="Area3D" type="Area3D" parent="spikes/SpikePlate13"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="spikes/SpikePlate13/Area3D"]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0.0317383, 1.11108, 0.00939941)
+shape = SubResource("BoxShape3D_7ehbu")
+
+[node name="SpikePlate14" type="Node3D" parent="spikes"]
+transform = Transform3D(0.968591, -0.0491684, 0.24375, 0.0506975, 0.998714, 2.34774e-10, -0.243437, 0.0123575, 0.969838, -18.0155, -10.2857, 87.3326)
+
+[node name="spike_plate2" parent="spikes/SpikePlate14" instance=ExtResource("10_k57b1")]
+transform = Transform3D(0.995596, 0.000223558, -0.0937444, 0.000223535, 0.999989, 0.00475873, 0.0937443, -0.00475873, 0.995585, 0.00773239, -0.00039196, -0.204674)
+
+[node name="Area3D" type="Area3D" parent="spikes/SpikePlate14"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="spikes/SpikePlate14/Area3D"]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0.0317383, 1.11108, 0.00939941)
+shape = SubResource("BoxShape3D_7ehbu")
+
+[node name="SpikePlate15" type="Node3D" parent="spikes"]
+transform = Transform3D(0.987165, -0.0501113, 0.15164, 0.0506975, 0.998714, 3.39833e-10, -0.151445, 0.00768779, 0.988436, -13.7555, -10.0197, 86.4315)
+
+[node name="spike_plate2" parent="spikes/SpikePlate15" instance=ExtResource("10_k57b1")]
+
+[node name="Area3D" type="Area3D" parent="spikes/SpikePlate15"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="spikes/SpikePlate15/Area3D"]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0.0317383, 1.11108, 0.00939941)
+shape = SubResource("BoxShape3D_7ehbu")
+
+[node name="SpikePlate16" type="Node3D" parent="spikes"]
+transform = Transform3D(0.97006, -0.0218493, 0.241881, 0.0317931, 0.998799, -0.0372833, -0.240776, 0.0438572, 0.969589, -65.1718, -13.1271, 99.5182)
+
+[node name="spike_plate2" parent="spikes/SpikePlate16" instance=ExtResource("10_k57b1")]
+transform = Transform3D(0.995596, 0.000223558, -0.0937444, 0.000223535, 0.999989, 0.00475873, 0.0937443, -0.00475873, 0.995585, 0.00773239, -0.00039196, -0.204674)
+
+[node name="Area3D" type="Area3D" parent="spikes/SpikePlate16"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="spikes/SpikePlate16/Area3D"]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0.0317383, 1.11108, 0.00939941)
+shape = SubResource("BoxShape3D_7ehbu")
+
+[node name="SpikePlate17" type="Node3D" parent="spikes"]
+transform = Transform3D(0.988428, -0.0233278, 0.149888, 0.028518, 0.999062, -0.0325712, -0.148987, 0.0364688, 0.988166, -60.9022, -13.0785, 98.6245)
+
+[node name="spike_plate2" parent="spikes/SpikePlate17" instance=ExtResource("10_k57b1")]
+
+[node name="Area3D" type="Area3D" parent="spikes/SpikePlate17"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="spikes/SpikePlate17/Area3D"]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0.0317383, 1.11108, 0.00939941)
+shape = SubResource("BoxShape3D_7ehbu")
+
+[node name="SpikePlate18" type="Node3D" parent="spikes"]
+transform = Transform3D(0.97006, -0.0218493, 0.241881, 0.0317931, 0.998799, -0.0372833, -0.240776, 0.0438572, 0.969589, -65.9618, -12.9572, 94.3824)
+
+[node name="spike_plate2" parent="spikes/SpikePlate18" instance=ExtResource("10_k57b1")]
+transform = Transform3D(0.995596, 0.000223558, -0.0937444, 0.000223535, 0.999989, 0.00475873, 0.0937443, -0.00475873, 0.995585, 0.00773239, -0.00039196, -0.204674)
+
+[node name="Area3D" type="Area3D" parent="spikes/SpikePlate18"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="spikes/SpikePlate18/Area3D"]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0.0317383, 1.11108, 0.00939941)
+shape = SubResource("BoxShape3D_7ehbu")
+
+[node name="SpikePlate19" type="Node3D" parent="spikes"]
+transform = Transform3D(0.988428, -0.0233278, 0.149888, 0.028518, 0.999062, -0.0325712, -0.148987, 0.0364688, 0.988166, -61.6922, -12.9086, 93.4888)
+
+[node name="spike_plate2" parent="spikes/SpikePlate19" instance=ExtResource("10_k57b1")]
+
+[node name="Area3D" type="Area3D" parent="spikes/SpikePlate19"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="spikes/SpikePlate19/Area3D"]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0.0317383, 1.11108, 0.00939941)
+shape = SubResource("BoxShape3D_7ehbu")
+
+[node name="SpikePlate3" type="Node3D" parent="spikes"]
+transform = Transform3D(0.734323, 0, 0.678801, 0, 1, 0, -0.678801, 0, 0.734323, 15.9634, 0, 6.46636)
+
+[node name="spike_plate2" parent="spikes/SpikePlate3" instance=ExtResource("10_k57b1")]
+
+[node name="Area3D" type="Area3D" parent="spikes/SpikePlate3"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="spikes/SpikePlate3/Area3D"]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0.0317383, 1.11108, 0.00939941)
+shape = SubResource("BoxShape3D_7ehbu")
+
+[node name="SpikePlate4" type="Node3D" parent="spikes"]
+transform = Transform3D(0.734323, 0, 0.678801, 0, 1, 0, -0.678801, 0, 0.734323, 18.7115, 0, 15.601)
+
+[node name="spike_plate2" parent="spikes/SpikePlate4" instance=ExtResource("10_k57b1")]
+
+[node name="Area3D" type="Area3D" parent="spikes/SpikePlate4"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="spikes/SpikePlate4/Area3D"]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0.0317383, 1.11108, 0.00939941)
+shape = SubResource("BoxShape3D_7ehbu")
+
+[node name="SpikePlate5" type="Node3D" parent="spikes"]
+transform = Transform3D(0.734323, 0, 0.678801, 0, 1, 0, -0.678801, 0, 0.734323, 21.7306, 0, 12.7367)
+
+[node name="spike_plate2" parent="spikes/SpikePlate5" instance=ExtResource("10_k57b1")]
+
+[node name="Area3D" type="Area3D" parent="spikes/SpikePlate5"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="spikes/SpikePlate5/Area3D"]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0.0317383, 1.11108, 0.00939941)
+shape = SubResource("BoxShape3D_7ehbu")
+
+[node name="SpikePlate6" type="Node3D" parent="spikes"]
+transform = Transform3D(0.734323, 0, 0.678801, 0, 1, 0, -0.678801, 0, 0.734323, 15.8473, 0, 12.5432)
+
+[node name="spike_plate2" parent="spikes/SpikePlate6" instance=ExtResource("10_k57b1")]
+
+[node name="Area3D" type="Area3D" parent="spikes/SpikePlate6"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="spikes/SpikePlate6/Area3D"]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0.0317383, 1.11108, 0.00939941)
+shape = SubResource("BoxShape3D_7ehbu")
+
+[node name="SpikePlate7" type="Node3D" parent="spikes"]
+transform = Transform3D(0.734323, 0, 0.678801, 0, 1, 0, -0.678801, 0, 0.734323, 18.8664, 0, 9.67896)
+
+[node name="spike_plate2" parent="spikes/SpikePlate7" instance=ExtResource("10_k57b1")]
+
+[node name="Area3D" type="Area3D" parent="spikes/SpikePlate7"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="spikes/SpikePlate7/Area3D"]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0.0317383, 1.11108, 0.00939941)
+shape = SubResource("BoxShape3D_7ehbu")
+
+[connection signal="body_entered" from="area/ground5/SpikePlate8/Area3D" to="PlayerCar" method="_on_area_3d_body_entered"]
+[connection signal="body_entered" from="area/ground5/SpikePlate9/Area3D" to="PlayerCar" method="_on_area_3d_body_entered"]
+[connection signal="body_entered" from="area/ground5/SpikePlate10/Area3D" to="PlayerCar" method="_on_area_3d_body_entered"]
+[connection signal="body_entered" from="area/ground5/SpikePlate11/Area3D" to="PlayerCar" method="_on_area_3d_body_entered"]
+[connection signal="body_entered" from="area/ground5/SpikePlate12/Area3D" to="PlayerCar" method="_on_area_3d_body_entered"]
+[connection signal="body_entered" from="area/ground5/SpikePlate13/Area3D" to="PlayerCar" method="_on_area_3d_body_entered"]
+[connection signal="body_entered" from="area/ground5/SpikePlate14/Area3D" to="PlayerCar" method="_on_area_3d_body_entered"]
+[connection signal="body_entered" from="area/ground5/SpikePlate15/Area3D" to="PlayerCar" method="_on_area_3d_body_entered"]
+[connection signal="body_entered" from="area/ground5/SpikePlate16/Area3D" to="PlayerCar" method="_on_area_3d_body_entered"]
+[connection signal="body_entered" from="area/ground5/SpikePlate17/Area3D" to="PlayerCar" method="_on_area_3d_body_entered"]
+[connection signal="body_entered" from="area/ground5/SpikePlate18/Area3D" to="PlayerCar" method="_on_area_3d_body_entered"]
+[connection signal="body_entered" from="area/ground5/SpikePlate19/Area3D" to="PlayerCar" method="_on_area_3d_body_entered"]
+[connection signal="body_entered" from="area/ground5/SpikePlate20/Area3D" to="PlayerCar" method="_on_area_3d_body_entered"]
+[connection signal="body_entered" from="area/ground5/SpikePlate21/Area3D" to="PlayerCar" method="_on_area_3d_body_entered"]
+[connection signal="body_entered" from="area/ground5/SpikePlate22/Area3D" to="PlayerCar" method="_on_area_3d_body_entered"]
+[connection signal="body_entered" from="spikes/SpikePlate/Area3D" to="PlayerCar" method="_on_area_3d_body_entered"]
+[connection signal="body_entered" from="spikes/SpikePlate2/Area3D" to="PlayerCar" method="_on_area_3d_body_entered"]
+[connection signal="body_entered" from="spikes/SpikePlate8/Area3D" to="PlayerCar" method="_on_area_3d_body_entered"]
+[connection signal="body_entered" from="spikes/SpikePlate9/Area3D" to="PlayerCar" method="_on_area_3d_body_entered"]
+[connection signal="body_entered" from="spikes/SpikePlate10/Area3D" to="PlayerCar" method="_on_area_3d_body_entered"]
+[connection signal="body_entered" from="spikes/SpikePlate11/Area3D" to="PlayerCar" method="_on_area_3d_body_entered"]
+[connection signal="body_entered" from="spikes/SpikePlate12/Area3D" to="PlayerCar" method="_on_area_3d_body_entered"]
+[connection signal="body_entered" from="spikes/SpikePlate13/Area3D" to="PlayerCar" method="_on_area_3d_body_entered"]
+[connection signal="body_entered" from="spikes/SpikePlate14/Area3D" to="PlayerCar" method="_on_area_3d_body_entered"]
+[connection signal="body_entered" from="spikes/SpikePlate15/Area3D" to="PlayerCar" method="_on_area_3d_body_entered"]
+[connection signal="body_entered" from="spikes/SpikePlate16/Area3D" to="PlayerCar" method="_on_area_3d_body_entered"]
+[connection signal="body_entered" from="spikes/SpikePlate17/Area3D" to="PlayerCar" method="_on_area_3d_body_entered"]
+[connection signal="body_entered" from="spikes/SpikePlate18/Area3D" to="PlayerCar" method="_on_area_3d_body_entered"]
+[connection signal="body_entered" from="spikes/SpikePlate19/Area3D" to="PlayerCar" method="_on_area_3d_body_entered"]
+[connection signal="body_entered" from="spikes/SpikePlate3/Area3D" to="PlayerCar" method="_on_area_3d_body_entered"]
+[connection signal="body_entered" from="spikes/SpikePlate4/Area3D" to="PlayerCar" method="_on_area_3d_body_entered"]
+[connection signal="body_entered" from="spikes/SpikePlate5/Area3D" to="PlayerCar" method="_on_area_3d_body_entered"]
+[connection signal="body_entered" from="spikes/SpikePlate6/Area3D" to="PlayerCar" method="_on_area_3d_body_entered"]
+[connection signal="body_entered" from="spikes/SpikePlate7/Area3D" to="PlayerCar" method="_on_area_3d_body_entered"]
